@@ -71,7 +71,9 @@ const SideBar = (props) => {
                     </Button>
                 </Grid>
                 <Grid item lg={4} xs={12}>
-                    <Button color="success" variant="contained" endIcon={<SendIcon />} fullWidth>
+                    <Button color="success" variant="contained" endIcon={<SendIcon />} fullWidth
+                        onClick={(e) => props.handleQuery(query)}
+                    >
                         Query
                     </Button>
                 </Grid>

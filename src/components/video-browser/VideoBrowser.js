@@ -8,11 +8,9 @@ const VideoBrowser = (props) => {
 
     return (
         <Stack height="100%" sx={{overflowY: "auto"}}>
-            <VideoInstance videoId={4} />
-            <VideoInstance videoId={8} />
-            <VideoInstance videoId={12} />
-            <VideoInstance videoId={16} />
-            <VideoInstance videoId={20} />
+            {
+                props.videos.map(video => <VideoInstance video={video}/>)
+            }
         </Stack>
     );
 }

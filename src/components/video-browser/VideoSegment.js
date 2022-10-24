@@ -3,15 +3,22 @@ import Box from '@mui/material/Box';
 import { Container } from '@mui/system';
 import { useRef, useState } from 'react';
 
+const URL_CDN = "http://192.168.20.156:5004/videos/";
+
 const VideoSegment = (props) => {
 
     const videoRef = useRef();
+
+    const getVideoSrc = () => {
+        if(!props.src) return "sample_video.mp4";
+        return URL_CDN + props.src;
+    }
 
     return (
         <Card sx={{ transform: props.transform, transition: "all 400ms ease" }} >
             <CardMedia
                 component="video"
-                src={props.src}
+                src={getVideoSrc()}
                 ref={videoRef}
                 onMouseOver={e => { if (props.index == 0) e.target.play() }}
                 onMouseOut={e => {

@@ -30,30 +30,24 @@ const VideoInstance = (props) => {
     const classes = useStyles();
 
     const show = 5;
-    const lazy = 15;
-    const [videoIndex, setVideoIndex] = useState(Math.floor(lazy / 2));
+    const totalVideos = props.video.length;
+    const [currentIndex, setVideoIndex] = useState(Math.floor(totalVideos / 2));
 
-    const getVideoPath = (index) => "bp/sample_video_" + String(index).padStart(3, '0') + ".mp4";
-
-    const getVideoSegments = () => Array.from({ length: 15 }, (x, i) => getVideoPath(props.videoId + i - 7));
-
-    const getVideoSegment = (video, index, array) => (
+    const getVideoSegment = (video, videoIndex, array) => (
         <VideoSegment
             src={video}
-            index={Math.abs(index - videoIndex - Math.floor(show / 2))}
-            transform={`translateX(-${videoIndex * 100}%)`}
+            index={Math.abs(videoIndex - currentIndex)}
+            transform={`translateX(-${(currentIndex - Math.floor(show / 2)) * 100}%)`}
         />
     );
 
     const addVideoNext = () => {
-        setVideoIndex(videoIndex + 1);
+        setVideoIndex(currentIndex + 1);
     }
 
     const addVideoPrev = () => {
-        setVideoIndex(videoIndex - 1);
+        setVideoIndex(currentIndex - 1);
     }
-
-    const videoRef = useRef();
 
     return (
         <Stack
@@ -63,19 +57,22 @@ const VideoInstance = (props) => {
                 display: "flex",
                 overflowX: "hidden",
                 maxHeight: "25%",
-                pb: 1, pt: 1,
+                pb: 1,
             }}
         >
-            {getVideoSegments().map((video, index, array) => {
-                const videoSegment = getVideoSegment(video, index, array);
-                return (
-                    <Box sx={{ width: "20%", flexShrink: 0 }}>
-                        <Collapse key={video + index} in={true} direction="left">
-                            {videoSegment}
-                        </Collapse>
-                    </Box>
-                );
-            })}
+            {
+                props.video.map((transition, index) => {
+                    const videoPath = transition != null ? transition['video_path'] : null
+                    const videoSegment = getVideoSegment(videoPath, index, null);
+                    return (
+                        <Box sx={{ width: "20%", flexShrink: 0 }}>
+                            <Collapse key={videoPath + index.toString()} in={true} direction="left">
+                                {videoSegment}
+                            </Collapse>
+                        </Box>
+                    );
+                })
+            }
 
             <IconButton
                 color="primary"
