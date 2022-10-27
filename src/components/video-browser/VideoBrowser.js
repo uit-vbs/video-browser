@@ -9,7 +9,7 @@ const VideoBrowser = (props) => {
     return (
         <Stack height="100%" sx={{overflowY: "auto"}}>
             {
-                props.videos.map(video => <VideoInstance video={video}/>)
+                props.videos.map((video, index) => <VideoInstance video={video} index={index}/>)
             }
         </Stack>
     );

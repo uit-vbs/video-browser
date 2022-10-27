@@ -57,6 +57,7 @@ const SideBar = (props) => {
                 placeholder="Type something..."
                 variant="outlined"
                 className={classes.root}
+                value={query}
                 // InputProps={{ color: "primary" }}
                 onChange={e => setQuery(e.target.value)}
                 rows={4}
@@ -66,7 +67,12 @@ const SideBar = (props) => {
 
             <Grid container spacing={1} sx={{ pt: 1, pb: 1 }}>
                 <Grid item lg={8} xs={12}>
-                    <Button color="secondary" variant="contained" fullWidth>
+                    <Button color="secondary" variant="contained" fullWidth
+                        onClick={(e) => {
+                            setQuery("");
+                            props.handleReset();
+                        }}
+                    >
                         <b>RESET ALL</b>
                     </Button>
                 </Grid>

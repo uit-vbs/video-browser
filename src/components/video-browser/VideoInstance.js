@@ -33,13 +33,15 @@ const VideoInstance = (props) => {
     const totalVideos = props.video.length;
     const [currentIndex, setVideoIndex] = useState(Math.floor(totalVideos / 2));
 
-    const getVideoSegment = (video, videoIndex, array) => (
-        <VideoSegment
-            src={video}
-            index={Math.abs(videoIndex - currentIndex)}
-            transform={`translateX(-${(currentIndex - Math.floor(show / 2)) * 100}%)`}
-        />
-    );
+    const getVideoSegment = (transition, videoIndex, array) => {
+        return (
+            <VideoSegment
+                transition={transition}
+                index={Math.abs(videoIndex - currentIndex)}
+                transform={`translateX(-${(currentIndex - Math.floor(show / 2)) * 100}%)`}
+            />
+        );
+    }
 
     const addVideoNext = () => {
         setVideoIndex(currentIndex + 1);
@@ -62,11 +64,10 @@ const VideoInstance = (props) => {
         >
             {
                 props.video.map((transition, index) => {
-                    const videoPath = transition != null ? transition['video_path'] : null
-                    const videoSegment = getVideoSegment(videoPath, index, null);
+                    const videoSegment = getVideoSegment(transition, index, null);
                     return (
                         <Box sx={{ width: "20%", flexShrink: 0 }}>
-                            <Collapse key={videoPath + index.toString()} in={true} direction="left">
+                            <Collapse key={props.index.toString() + "_" + index.toString()} in={true} direction="left">
                                 {videoSegment}
                             </Collapse>
                         </Box>

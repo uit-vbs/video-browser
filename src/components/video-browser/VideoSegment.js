@@ -9,16 +9,14 @@ const VideoSegment = (props) => {
 
     const videoRef = useRef();
 
-    const getVideoSrc = () => {
-        if(!props.src) return "sample_video.mp4";
-        return URL_CDN + props.src;
-    }
-
     return (
-        <Card sx={{ transform: props.transform, transition: "all 400ms ease" }} >
+        <Card 
+            sx={{ transform: props.transform, transition: "all 400ms ease" }} 
+            onClick={() => {}}
+        >
             <CardMedia
                 component="video"
-                src={getVideoSrc()}
+                src={URL_CDN + props.transition?.video_path}
                 ref={videoRef}
                 onMouseOver={e => { if (props.index == 0) e.target.play() }}
                 onMouseOut={e => {
