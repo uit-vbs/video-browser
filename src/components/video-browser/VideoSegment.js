@@ -31,6 +31,8 @@ const VideoSegment = (props) => {
         return "";
     }
 
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+
     return (
         <Card
             sx={{ transform: props.transform, transition: "all 400ms ease" }}
@@ -56,7 +58,9 @@ const VideoSegment = (props) => {
             >
             </CardMedia>
             {
-                isHover ? (<div>{props.transition?.video_path}</div>) : <div />
+                isHover ? (<div>
+                    {`C${zeroPad(props.transition?.channel_id, 2)}_V${zeroPad(props.transition?.video_id, 4)}/${props.transition?.frame_start}`}
+                </div>) : <div />
             }
         </Card>
     );
