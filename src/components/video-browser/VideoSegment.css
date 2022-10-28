@@ -1,0 +1,7 @@
+.segment-positive {
+    border: 10px solid green;
+}
+
+.segment-negative {
+    border: 10px solid red;
+}
