@@ -1,0 +1,1 @@
+export const getTransitionKey = (transition) => transition != null ? `${transition.channel_id}_${transition.video_id}_${transition.transition_id}` : null;

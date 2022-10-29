@@ -1,8 +1,10 @@
 import { Button, Card, CardMedia, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Container } from '@mui/system';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { RelevantFeedbackContext } from './RelevantFeedbackContext';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleNegativeFeedback, togglePositiveFeedback } from 'redux/slices/relevantFeedbackSlice';
+import { getTransitionKey } from 'utils';
 
 import './VideoSegment.css';
 
@@ -11,23 +13,25 @@ const URL_CDN = "http://192.168.20.156:5004/videos/";
 const VideoSegment = (props) => {
 
     const videoRef = useRef();
-    const { togglePositiveFeedback, toggleNegativeFeedback, isPositiveFeedback, isNegativeFeedback } = useContext(RelevantFeedbackContext);
 
-    const [selectState, setSelectState] = useState(0);
+    const isPositiveFeedback = useSelector(state => (getTransitionKey(props.transition) in state.relevantFeedbacks.positives));
+    const isNegativeFeedback = useSelector(state => (getTransitionKey(props.transition) in state.relevantFeedbacks.negatives));
+    const dispatch = useDispatch();
+
     const [isHover, setHover] = useState(false);
 
     const leftClick = e => {
-        setSelectState(togglePositiveFeedback(props.transition));
+        dispatch(togglePositiveFeedback(props.transition))
     }
 
     const rightClick = e => {
-        setSelectState(toggleNegativeFeedback(props.transition));
+        dispatch(toggleNegativeFeedback(props.transition));
         e.preventDefault();
     }
 
     const getMediaClassName = () => {
-        if (selectState > 0) return "segment-positive";
-        if (selectState < 0) return "segment-negative";
+        if (isPositiveFeedback) return "segment-positive";
+        if (isNegativeFeedback) return "segment-negative";
         return "";
     }
 
