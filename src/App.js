@@ -1,6 +1,4 @@
 import { createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
-import { blue, grey, pink } from "@mui/material/colors";
-import { Container } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAllFeedbacks } from 'redux/slices/relevantFeedbackSlice';
@@ -43,9 +41,9 @@ function App() {
 
 	const setVideoTransition = (transitionNew, i, j) => {
 		setVideos(videos => videos.map((video, videoId) => {
-			if (videoId != i) return video;
+			if (videoId !== i) return video;
 			return video.map((transition, transitionId) => {
-				if (transitionId != j) return transition;
+				if (transitionId !== j) return transition;
 				return transitionNew;
 			})
 		}));
@@ -75,7 +73,7 @@ function App() {
 			.then(response => response.json())
 			.then(response => {
 				const session_id = response['session_id'];
-				if (sessionId!=null && sessionId!=session_id) {
+				if (sessionId !== null && sessionId !== session_id) {
 					console.warn(`Non-consistent session id: old_id="${sessionId}", new_id="${session_id}"`);
 					return;
 				}
@@ -121,6 +119,7 @@ function App() {
 
 	useEffect(() => {
 		handleQuery(null);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [sessionId])
 
 	return (

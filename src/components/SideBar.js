@@ -1,7 +1,6 @@
-import { Button, Card, CardMedia, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Button, Card, CardMedia, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import SendIcon from '@mui/icons-material/Send';
-import { Container } from '@mui/system';
 import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react';
 

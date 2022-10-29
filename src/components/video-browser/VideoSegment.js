@@ -1,6 +1,4 @@
-import { Button, Card, CardMedia, TextField, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import { Container } from '@mui/system';
+import { Card, CardMedia } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNegativeFeedback, togglePositiveFeedback } from 'redux/slices/relevantFeedbackSlice';
@@ -50,7 +48,7 @@ const VideoSegment = (props) => {
                 className={getMediaClassName()}
                 src={URL_CDN + props.transition?.video_path}
                 ref={videoRef}
-                onMouseOver={e => { if (props.index == 0) e.target.play() }}
+                onMouseOver={e => { if (props.index === 0) e.target.play() }}
                 onMouseOut={e => {
                     e.target.pause();
                     e.target.currentTime = 0;

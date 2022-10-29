@@ -1,12 +1,10 @@
-import { Button, Card, CardMedia, Collapse, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Collapse, IconButton, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Container } from '@mui/system';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import VideoSegment from './VideoSegment';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { makeStyles } from '@mui/styles';
-import { TransitionGroup } from 'react-transition-group';
 
 const useStyles = makeStyles((theme) => ({
     navButton: {

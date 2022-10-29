@@ -1,7 +1,4 @@
-import { Button, Card, CardMedia, Grid, Stack, TextField, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import { Container } from '@mui/system';
-import { useState } from 'react';
+import { Stack } from '@mui/material';
 import VideoInstance from './VideoInstance';
 
 const VideoBrowser = (props) => {
