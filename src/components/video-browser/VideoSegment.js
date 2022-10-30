@@ -2,7 +2,7 @@ import { Card, CardMedia } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNegativeFeedback, togglePositiveFeedback } from 'redux/slices/relevantFeedbackSlice';
-import { getTransitionKey } from 'utils';
+import { getFrameId, getTransitionKey } from 'utils';
 
 import './VideoSegment.css';
 
@@ -17,6 +17,20 @@ const VideoSegment = (props) => {
     const dispatch = useDispatch();
 
     const [isHover, setHover] = useState(false);
+
+    const handleHoverOn = () => {
+        if (isHover) return;
+        if (props.index !== 0) return;
+        setHover(true);
+        videoRef.current.play();
+    }
+
+    const handleHoverOff = () => {
+        if (!isHover) return;
+        setHover(false);
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+    }
 
     const leftClick = e => {
         dispatch(togglePositiveFeedback(props.transition))
@@ -33,35 +47,38 @@ const VideoSegment = (props) => {
         return "";
     }
 
-    const zeroPad = (num, places) => String(num).padStart(places, '0')
-
     return (
         <Card
-            sx={{ transform: props.transform, transition: "all 400ms ease" }}
+            sx={{
+                transform: props.transform, transition: "all 400ms ease",
+                flexShrink: 0,
+                width: "20%", height: "100%",
+            }}
             onClick={leftClick}
             onContextMenu={rightClick}
-            onMouseEnter={() => { if (!isHover) setHover(true) }}
-            onMouseLeave={() => { if (isHover) setHover(false) }}
+            onMouseEnter={handleHoverOn}
+            onMouseLeave={handleHoverOff}
         >
             <CardMedia
                 component="video"
-                className={getMediaClassName()}
+                // className={getMediaClassName()}
                 src={URL_CDN + props.transition?.video_path}
                 ref={videoRef}
-                onMouseOver={e => { if (props.index === 0) e.target.play() }}
-                onMouseOut={e => {
-                    e.target.pause();
-                    e.target.currentTime = 0;
-                }}
                 onCanPlay={() => videoRef.current.playbackRate = 4}
                 sx={{ opacity: 1 - props.index * 0.3 }}
                 preload="metadata"
                 loop muted
             >
             </CardMedia>
+            {/* Relevant feedback border */}
+            <div
+                className={getMediaClassName()}
+                style={{ position: "absolute", top: 0, width: "100%", height: "100%" }}
+            />
+            {/* Hover tooltip */}
             {
-                isHover ? (<div style={{position: "absolute", bottom: 0, backgroundColor: "#f0f0f0", fontSize: 14}}>
-                    {`C${zeroPad(props.transition?.channel_id, 2)}_V${zeroPad(props.transition?.video_id, 4)}/${props.transition?.frame_start}`}
+                isHover ? (<div style={{ position: "absolute", bottom: 0, backgroundColor: "#f0f0f0", fontSize: 14 }}>
+                    {getFrameId(props.transition)}
                 </div>) : <div />
             }
         </Card>

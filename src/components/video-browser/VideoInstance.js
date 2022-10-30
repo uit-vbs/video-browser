@@ -1,5 +1,4 @@
-import { Collapse, IconButton, Stack } from '@mui/material';
-import Box from '@mui/material/Box';
+import { IconButton, Stack } from '@mui/material';
 import { useState } from 'react';
 import VideoSegment from './VideoSegment';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -31,16 +30,6 @@ const VideoInstance = (props) => {
     const totalVideos = props.video.length;
     const [currentIndex, setVideoIndex] = useState(Math.floor(totalVideos / 2));
 
-    const getVideoSegment = (transition, videoIndex, array) => {
-        return (
-            <VideoSegment
-                transition={transition}
-                index={Math.abs(videoIndex - currentIndex)}
-                transform={`translateX(${(Math.floor(show / 2) - currentIndex) * 100}%)`}
-            />
-        );
-    }
-
     const addVideoNext = () => {
         setVideoIndex(currentIndex + 1);
     }
@@ -56,20 +45,22 @@ const VideoInstance = (props) => {
                 position: "relative",
                 display: "flex",
                 overflowX: "hidden",
-                maxHeight: "25%",
-                pb: 1,
+                height: "20%",
+                boxSizing: "border-box",
+                pt: 0.5,
+                pb: 0.5,
             }}
         >
             {
                 props.video.map((transition, index) => {
-                    const videoSegment = getVideoSegment(transition, index, null);
                     const segmentId = props.index.toString() + "_" + index.toString();
                     return (
-                        <Box key={segmentId} sx={{ width: "20%", flexShrink: 0 }}>
-                            <Collapse in={true} direction="left">
-                                {videoSegment}
-                            </Collapse>
-                        </Box>
+                        <VideoSegment
+                            key={segmentId}
+                            transition={transition}
+                            index={Math.abs(index - currentIndex)}
+                            transform={`translateX(${(Math.floor(show / 2) - currentIndex) * 100}%)`}
+                        />
                     );
                 })
             }
