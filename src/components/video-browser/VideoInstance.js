@@ -36,7 +36,7 @@ const VideoInstance = (props) => {
             <VideoSegment
                 transition={transition}
                 index={Math.abs(videoIndex - currentIndex)}
-                transform={`translateX(-${(currentIndex - Math.floor(show / 2)) * 100}%)`}
+                transform={`translateX(${(Math.floor(show / 2) - currentIndex) * 100}%)`}
             />
         );
     }
@@ -63,9 +63,10 @@ const VideoInstance = (props) => {
             {
                 props.video.map((transition, index) => {
                     const videoSegment = getVideoSegment(transition, index, null);
+                    const segmentId = props.index.toString() + "_" + index.toString();
                     return (
-                        <Box sx={{ width: "20%", flexShrink: 0 }}>
-                            <Collapse key={props.index.toString() + "_" + index.toString()} in={true} direction="left">
+                        <Box key={segmentId} sx={{ width: "20%", flexShrink: 0 }}>
+                            <Collapse in={true} direction="left">
                                 {videoSegment}
                             </Collapse>
                         </Box>

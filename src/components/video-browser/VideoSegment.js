@@ -60,7 +60,7 @@ const VideoSegment = (props) => {
             >
             </CardMedia>
             {
-                isHover ? (<div>
+                isHover ? (<div style={{position: "absolute", bottom: 0, backgroundColor: "#f0f0f0", fontSize: 14}}>
                     {`C${zeroPad(props.transition?.channel_id, 2)}_V${zeroPad(props.transition?.video_id, 4)}/${props.transition?.frame_start}`}
                 </div>) : <div />
             }

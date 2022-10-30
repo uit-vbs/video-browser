@@ -1,3 +1,8 @@
+.segment:hover, .segment:focus, .segment:active {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
 .segment-positive {
     border: 10px solid green;
 }

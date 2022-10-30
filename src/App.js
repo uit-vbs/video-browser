@@ -72,12 +72,7 @@ function App() {
 		fetch(url, payload)
 			.then(response => response.json())
 			.then(response => {
-				const session_id = response['session_id'];
-				if (sessionId !== null && sessionId !== session_id) {
-					console.warn(`Non-consistent session id: old_id="${sessionId}", new_id="${session_id}"`);
-					return;
-				}
-				setSessionId(session_id);
+				if (sessionId == null) setSessionId(response['session_id']);
 				response['results'].forEach((result, videoIndex) => result == null ? null : getVideoContext(
 					result['channel_id'],
 					result['video_id'],
