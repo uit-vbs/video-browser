@@ -73,8 +73,6 @@ const VideoSegment = (props) => {
                 flexShrink: 0,
                 width: "20%", height: "100%",
             }}
-            onClick={leftClick}
-            onContextMenu={rightClick}
             onMouseDown={handleClick}
             onMouseEnter={handleHoverOn}
             onMouseLeave={handleHoverOff}
