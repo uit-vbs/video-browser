@@ -39,7 +39,6 @@ const VideoSegment = (props) => {
 
     const rightClick = e => {
         dispatch(toggleNegativeFeedback(props.transition));
-        e.preventDefault();
     }
 
     const middleClick = e => {
@@ -74,6 +73,7 @@ const VideoSegment = (props) => {
                 width: "20%", height: "100%",
             }}
             onMouseDown={handleClick}
+            onContextMenu={e => e.preventDefault()}
             onMouseEnter={handleHoverOn}
             onMouseLeave={handleHoverOff}
         >
