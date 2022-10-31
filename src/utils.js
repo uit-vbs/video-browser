@@ -13,3 +13,9 @@ export const getVideoName = (transition) => {
     const videoId = zeroPad(transition?.video_id, 4);
     return `C${channelId}_V${videoId}.mp4`;
 }
+export const getTimeFormatted = () => {
+    const currentdate = new Date();
+    const datetime = zeroPad(currentdate.getFullYear(), 4) + "-" + zeroPad(currentdate.getMonth() + 1, 2) + "-" + zeroPad(currentdate.getDate(), 2)
+        + "_" + zeroPad(currentdate.getHours(), 2) + "-" + zeroPad(currentdate.getMinutes(), 2) + "-" + zeroPad(currentdate.getSeconds(), 2);
+    return datetime;
+}

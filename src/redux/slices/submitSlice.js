@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getMiddleFrame, getTransitionKey, getVideoName } from 'utils';
+import { getMiddleFrame, getTimeFormatted as getDatetimeFormatted, getTransitionKey, getVideoName } from 'utils';
 
 const getCsvRow = (row, frameId) => `${getVideoName(row)},${frameId}`;
 
@@ -57,7 +57,7 @@ export const submitSlice = createSlice({
 
       const pom = document.createElement('a');
       pom.href = url;
-      pom.setAttribute('download', 'export.csv');
+      pom.setAttribute('download', `query_${getDatetimeFormatted()}.csv`);
       pom.click();
     },
   },
