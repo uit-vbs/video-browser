@@ -15,7 +15,7 @@ export const getVideoName = (transition) => {
 }
 export const getTimeFormatted = () => {
     const currentdate = new Date();
-    const datetime = zeroPad(currentdate.getFullYear(), 4) + "-" + zeroPad(currentdate.getMonth() + 1, 2) + "-" + zeroPad(currentdate.getDate(), 2)
-        + "_" + zeroPad(currentdate.getHours(), 2) + "-" + zeroPad(currentdate.getMinutes(), 2) + "-" + zeroPad(currentdate.getSeconds(), 2);
+    const datetime = zeroPad(currentdate.getFullYear(), 4) + "_" + zeroPad(currentdate.getMonth() + 1, 2) + "_" + zeroPad(currentdate.getDate(), 2)
+        + "-" + zeroPad(currentdate.getHours(), 2) + "_" + zeroPad(currentdate.getMinutes(), 2) + "_" + zeroPad(currentdate.getSeconds(), 2);
     return datetime;
 }

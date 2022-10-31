@@ -57,7 +57,7 @@ export const submitSlice = createSlice({
 
       const pom = document.createElement('a');
       pom.href = url;
-      pom.setAttribute('download', `query_${getDatetimeFormatted()}.csv`);
+      pom.setAttribute('download', `query-${getDatetimeFormatted()}.csv`);
       pom.click();
     },
   },
