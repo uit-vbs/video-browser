@@ -13,9 +13,10 @@ const VideoSegment = (props) => {
 
     const videoRef = useRef();
 
+    const dispatch = useDispatch();
     const isPositiveFeedback = useSelector(state => (getTransitionKey(props.transition) in state.relevantFeedbacks.positives));
     const isNegativeFeedback = useSelector(state => (getTransitionKey(props.transition) in state.relevantFeedbacks.negatives));
-    const dispatch = useDispatch();
+    const submissionIndex = useSelector(state => state.submissions.findIndex(transition => getTransitionKey(props.transition) === getTransitionKey(transition)));
 
     const [isHover, setHover] = useState(false);
 
@@ -43,6 +44,7 @@ const VideoSegment = (props) => {
 
     const middleClick = e => {
         dispatch(addSubmission(props.transition));
+        e.preventDefault();
     }
 
     const handleClick = e => {
@@ -88,6 +90,13 @@ const VideoSegment = (props) => {
                 loop muted
             >
             </CardMedia>
+            {/* Submission overlay */}
+            {
+                submissionIndex != -1 ? <div
+                    className={"submission-overlay"}
+                    style={{ position: "absolute", top: 0, width: "100%", height: "100%" }}
+                ><span>{submissionIndex + 1}</span></div> : <div />
+            }
             {/* Relevant feedback border */}
             <div
                 className={getMediaClassName()}

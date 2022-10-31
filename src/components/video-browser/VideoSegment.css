@@ -1,7 +1,19 @@
-.segment:hover, .segment:focus, .segment:active {
+/* .segment:hover, .segment:focus, .segment:active {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
-  }
+  } */
+
+.submission-overlay {
+    background-color: rgba(119, 221, 119, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submission-overlay > span {
+    font-size: 48px;
+    color: #ffffff;
+}
 
 .segment-positive {
     border: 10px solid green;

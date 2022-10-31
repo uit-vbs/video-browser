@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import SendIcon from '@mui/icons-material/Send';
 import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { submit } from 'redux/slices/submitSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,6 +30,8 @@ const SideBar = (props) => {
 
     const [query, setQuery] = useState("");
     const [timer, setTimer] = useState(300);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -84,7 +88,7 @@ const SideBar = (props) => {
                 </Grid>
             </Grid>
             <Button color="success" variant="contained" endIcon={<SendIcon />} fullWidth
-                onClick={(e) => props.handleQuery(query)}
+                onClick={(e) => dispatch(submit())}
             >
                 Submit
             </Button>
