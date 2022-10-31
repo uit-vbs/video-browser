@@ -35,6 +35,7 @@ function App() {
 	const MAX_VIDEOS = 5;
 	const MAX_TRANSITIONS = 9;
 	const [videos, setVideos] = useState(new Array(MAX_VIDEOS).fill(0).map(() => new Array(MAX_TRANSITIONS).fill({})));
+	const [videoList, setVideoList] = useState([]);
 
 	const dispatch = useDispatch();
 	const relevantFeedbacks = useSelector(state => state.relevantFeedbacks);
@@ -73,6 +74,7 @@ function App() {
 			.then(response => response.json())
 			.then(response => {
 				if (sessionId == null) setSessionId(response['session_id']);
+				setVideoList(response['results']);
 				response['results'].forEach((result, videoIndex) => result == null ? null : getVideoContext(
 					result['channel_id'],
 					result['video_id'],
@@ -125,7 +127,7 @@ function App() {
 					<SideBar handleQuery={handleQuery} handleReset={handleReset} />
 				</Grid>
 				<Grid item xs={12} sm={8} md={9}>
-					<VideoBrowser videos={videos} />
+					<VideoBrowser videos={videos} videoList={videoList} />
 				</Grid>
 			</Grid>
 		</ThemeProvider>

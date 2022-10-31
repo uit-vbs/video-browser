@@ -1,5 +1,5 @@
 import { IconButton, Stack } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VideoSegment from './VideoSegment';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -22,20 +22,85 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const SERVER_BACKEND = "http://192.168.20.156:5004";
+const MAX_TRANSITIONS = 7;
+
 const VideoInstance = (props) => {
 
     const classes = useStyles();
 
     const show = 5;
-    const totalVideos = props.video.length;
-    const [currentIndex, setVideoIndex] = useState(Math.floor(totalVideos / 2));
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [transitionList, setTransitionList] = useState([]);
+
+    const getTransitionContext = ({handleVideoIndex=null, direction="both", window=MAX_TRANSITIONS}) => {
+		const url = SERVER_BACKEND + "/browse";
+        let transition = null;
+        switch (direction) {
+            case "next":
+                transition = transitionList[transitionList.length - 1];
+                break;
+            case "prev":
+                transition = transitionList[0];
+                break;
+            case "both":
+            default:
+                transition = props?.video;
+        }
+		const payload = {
+			method: "POST",
+			body: JSON.stringify({
+				channel_id: transition?.channel_id,
+				video_id: transition?.video_id,
+				transition_id: transition?.transition_id,
+                direction: direction,
+				window: window,
+			})
+		}
+		fetch(url, payload)
+			.then(response => response.json())
+			.then(response => response['results'])
+			.then(transitions => {
+                switch (direction) {
+                    case "next":
+                        setTransitionList([...transitionList, ...transitions]);
+                        break;
+                    case "prev":
+                        setTransitionList([...transitions, ...transitionList]);
+                        break;
+                    case "both":
+                    default:
+                        setTransitionList(transitions);
+                }
+                if (handleVideoIndex!=null) handleVideoIndex.call(this, transitions);
+            })
+			.catch((error) => {
+				console.error('Error while browsing transitions:', error);
+			});
+	}
+
+    useEffect(() => {
+        getTransitionContext({
+            direction: "both",
+            handleVideoIndex: (transitions) => setCurrentIndex(Math.floor(transitions.length / 2)),
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.video]);
 
     const addVideoNext = () => {
-        setVideoIndex(currentIndex + 1);
+        getTransitionContext({
+            direction: "next",
+            window: 1,
+            handleVideoIndex: (transitions) => setCurrentIndex(currentIndex + 1),
+        });
     }
 
     const addVideoPrev = () => {
-        setVideoIndex(currentIndex - 1);
+        getTransitionContext({
+            direction: "prev",
+            window: 1,
+            handleVideoIndex: (transitions) => {},
+        });
     }
 
     return (
@@ -52,8 +117,8 @@ const VideoInstance = (props) => {
             }}
         >
             {
-                props.video.map((transition, index) => {
-                    const segmentId = props.index.toString() + "_" + index.toString();
+                transitionList.map((transition, index) => {
+                    const segmentId = props.key + "_" + transition?.channel_id + "_" + transition?.video_id + "_" + transition?.transition_id;
                     return (
                         <VideoSegment
                             key={segmentId}
