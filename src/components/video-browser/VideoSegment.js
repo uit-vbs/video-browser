@@ -2,6 +2,7 @@ import { Card, CardMedia } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNegativeFeedback, togglePositiveFeedback } from 'redux/slices/relevantFeedbackSlice';
+import { addSubmission } from 'redux/slices/submitSlice';
 import { getFrameId, getTransitionKey } from 'utils';
 
 import './VideoSegment.css';
@@ -41,6 +42,24 @@ const VideoSegment = (props) => {
         e.preventDefault();
     }
 
+    const middleClick = e => {
+        dispatch(addSubmission(props.transition));
+    }
+
+    const handleClick = e => {
+        switch (e.button) {
+            case 0: // Left click
+                leftClick(e);
+                break;
+            case 2: // Right click
+                rightClick(e);
+                break;
+            case 1: // Middle click
+                middleClick(e);
+                break;
+        }
+    }
+
     const getMediaClassName = () => {
         if (isPositiveFeedback) return "segment-positive";
         if (isNegativeFeedback) return "segment-negative";
@@ -56,6 +75,7 @@ const VideoSegment = (props) => {
             }}
             onClick={leftClick}
             onContextMenu={rightClick}
+            onMouseDown={handleClick}
             onMouseEnter={handleHoverOn}
             onMouseLeave={handleHoverOff}
         >

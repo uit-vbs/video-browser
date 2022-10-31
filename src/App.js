@@ -39,6 +39,7 @@ function App() {
 
 	const dispatch = useDispatch();
 	const relevantFeedbacks = useSelector(state => state.relevantFeedbacks);
+	const submissions = useSelector(state => state.submissions);
 
 	const setVideoTransition = (transitionNew, i, j) => {
 		setVideos(videos => videos.map((video, videoId) => {
